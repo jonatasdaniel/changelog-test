@@ -1,0 +1,45 @@
+name: release
+on:
+  push:
+    branches:
+      - 'release/*'
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # gives standard-version access to all previous commits
+      - name: clean
+        run: |
+          rm -f CHANGELOG.md.old RELEASE_BODY.md
+      - name: backup previous changelog
+        uses: canastro/copy-file-action@master
+        with:
+          source: "CHANGELOG.md"
+          target: "CHANGELOG.md.old"
+      - name: generate tag
+        run: |
+          git config user.name Jonatas
+          git config user.email jonatas.hermann@gmail.com
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          VERSION=$(echo $BRANCH_NAME | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
+          npx standard-version --release-as ${VERSION}
+      - name: publish tag
+        id: publish_tag
+        run: |
+          git push --follow-tags origin ${BRANCH_NAME}
+          echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
+      - name: prepare release body
+        id: prepare_release_body
+        run: |
+          echo ::set-output name=tag_name::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
+      - name: create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: ${{ steps.publish_tag.outputs.tag_name }}
+          tag_name: ${{ steps.publish_tag.outputs.tag_name }}
+          body_path: RELEASE_BODY.md
