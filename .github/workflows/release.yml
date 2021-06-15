@@ -14,6 +14,7 @@ jobs:
       - name: clean
         run: |
           rm -f CHANGELOG.md.old RELEASE_BODY.md
+          touch CHANGELOG.md
       - name: backup previous changelog
         uses: canastro/copy-file-action@master
         with:
