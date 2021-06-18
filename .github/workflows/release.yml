@@ -44,3 +44,4 @@ jobs:
           release_name: ${{ steps.publish_tag.outputs.tag_name }}
           tag_name: ${{ steps.publish_tag.outputs.tag_name }}
           body_path: RELEASE_BODY.md
+          draft: true
