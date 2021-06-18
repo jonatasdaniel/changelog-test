@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.0.4](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.3...v1.0.4) (2021-06-18)
+
+
+### Bug Fixes
+
+* Fix some typo ([2fe2a34](https://github.com/jonatasdaniel/changelog-test/commit/2fe2a34248ba95c90d6baefea4a55765ab4744ca))
+
 ### [1.0.3](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.2...v1.0.3) (2021-06-18)
 
 
