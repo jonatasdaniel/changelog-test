@@ -10,7 +10,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v2
         with:
-          fetch-depth: 0 # gives standard-version access to all previous commits
+          fetch-depth: 0
       - name: clean
         run: |
           rm -f CHANGELOG.md.old RELEASE_BODY.md
