@@ -30,7 +30,7 @@ jobs:
       - name: publish tag
         id: publish_tag
         run: |
-          git push --follow-tags origin ${BRANCH_NAME}
+          git push --follow-tags origin HEAD:${BRANCH_NAME}
           echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
       - name: prepare release body
         id: prepare_release_body
