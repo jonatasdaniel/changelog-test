@@ -7,46 +7,54 @@ jobs:
   release:
     runs-on: ubuntu-latest
     steps:
-      - name: checkout
-        uses: actions/checkout@v2
+      # - name: checkout
+      #   uses: actions/checkout@v2
+      #   with:
+      #     ref: ${{ github.head_ref }}
+      #     fetch-depth: 0
+      # - name: clean
+      #   run: |
+      #     rm -f CHANGELOG.md.old RELEASE_BODY.md
+      #     touch CHANGELOG.md
+      # - name: backup previous changelog
+      #   uses: canastro/copy-file-action@master
+      #   with:
+      #     source: "CHANGELOG.md"
+      #     target: "CHANGELOG.md.old"
+      # - name: generate tag
+      #   run: |
+      #     git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+      #     git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+      #     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+      #     VERSION=$(echo $GITHUB_HEAD_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
+      #     npx standard-version --release-as ${VERSION}
+      # - name: publish tag
+      #   id: publish_tag
+      #   run: |
+      #     git push --follow-tags origin ${BRANCH_NAME}
+      #     echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
+      # - name: prepare release body
+      #   id: prepare_release_body
+      #   run: |
+      #     echo ::set-output name=tag_name::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
+      # - name: create release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     release_name: ${{ steps.publish_tag.outputs.tag_name }}
+      #     tag_name: ${{ steps.publish_tag.outputs.tag_name }}
+      #     body_path: RELEASE_BODY.md
+      #     draft: true
+      - name: update pull request
+        uses: tzkhan/pr-update-action@v2
         with:
-          ref: ${{ github.head_ref }}
-          fetch-depth: 0
-      - name: clean
-        run: |
-          rm -f CHANGELOG.md.old RELEASE_BODY.md
-          touch CHANGELOG.md
-      - name: backup previous changelog
-        uses: canastro/copy-file-action@master
-        with:
-          source: "CHANGELOG.md"
-          target: "CHANGELOG.md.old"
-      - name: generate tag
-        run: |
-          git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
-          git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          VERSION=$(echo $GITHUB_HEAD_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
-          npx standard-version --release-as ${VERSION}
-      - name: publish tag
-        id: publish_tag
-        run: |
-          git push --follow-tags origin ${BRANCH_NAME}
-          echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
-      - name: prepare release body
-        id: prepare_release_body
-        run: |
-          echo ::set-output name=tag_name::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
-      - name: create release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          release_name: ${{ steps.publish_tag.outputs.tag_name }}
-          tag_name: ${{ steps.publish_tag.outputs.tag_name }}
-          body_path: RELEASE_BODY.md
-          draft: true
-      - name: update PR
-        run: |
-          gh auth login --with-token
-          gh pr edit 24 --body "Teste"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          base-branch-regex: '[a-z\d-_.\\/]+'
+          head-branch-regex: 'foo-\d+'
+          title-template: '[%headbranch%] '
+          body-template: |
+            Merging into '%basebranch%'
+            [Link to %headbranch%](https://url/to/browse/ticket/%headbranch%)
+          body-update-action: 'suffix'
+          body-uppercase-base-match: false
