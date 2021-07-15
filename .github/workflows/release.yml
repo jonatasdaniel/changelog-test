@@ -50,7 +50,7 @@ jobs:
         run: |
           touch gh_token.txt
           echo "$GITHUB_TOKEN" > gh_token.txt
-          gh auth login < gh_token.txt
-          gh pr edit 33 --body "My test here"
+          gh auth login --with-token < gh_token.txt
+          gh pr edit 34 --body "My test here"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
