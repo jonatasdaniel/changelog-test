@@ -9,6 +9,13 @@ All notable changes to this project will be documented in this file. See [standa
 
 * Add F20 ([4e47fc4](https://github.com/jonatasdaniel/changelog-test/commit/4e47fc4cf347f1d1aff33369b4c06b820bda0287))
 
+### [1.0.20](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.4...v1.0.20) (2021-07-15)
+
+
+### Features
+
+* Add F20 ([4e47fc4](https://github.com/jonatasdaniel/changelog-test/commit/4e47fc4cf347f1d1aff33369b4c06b820bda0287))
+
 ### [1.0.4](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.3...v1.0.4) (2021-06-18)
 
 
