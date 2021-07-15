@@ -47,10 +47,5 @@ jobs:
           body_path: RELEASE_BODY.md
           draft: true
       - name: update PR
-        uses: gr2m/create-or-update-pull-request-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          branch: "master"
-          body: |
-            cat RELEASE_BODY.md
+        run: |
+          gh pr edit 24 --body "Teste"
