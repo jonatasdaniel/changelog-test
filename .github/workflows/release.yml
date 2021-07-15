@@ -52,5 +52,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           branch: "master"
-          body-template: |
+          body: |
             cat RELEASE_BODY.md
