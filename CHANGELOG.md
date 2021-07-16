@@ -9,6 +9,18 @@ All notable changes to this project will be documented in this file. See [standa
 
 * add 14 ([1f7704c](https://github.com/jonatasdaniel/changelog-test/commit/1f7704cc1ea4790dd3b6ff4f8d1072d28f56dc52))
 
+
+### Bug Fixes
+
+* 14-1 ([c73a8f4](https://github.com/jonatasdaniel/changelog-test/commit/c73a8f4533f622ba4646dc018af1616b39cfe3b2))
+
+### [1.0.14](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.4...v1.0.14) (2021-07-16)
+
+
+### Features
+
+* add 14 ([1f7704c](https://github.com/jonatasdaniel/changelog-test/commit/1f7704cc1ea4790dd3b6ff4f8d1072d28f56dc52))
+
 ### [1.0.14](https://github.com/jonatasdaniel/changelog-test/compare/v1.0.4...v1.0.14) (2021-07-16)
 
 
