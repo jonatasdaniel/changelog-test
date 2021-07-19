@@ -40,11 +40,16 @@ jobs:
       #   run: |
       #     echo ::set-output name=tag_name::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
       - name: update PR
-        uses: gr2m/create-or-update-pull-request-action@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: tzkhan/pr-update-action@v2
         with:
-          body: "My pull request body"
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+          base-branch-regex: '.*'
+          head-branch-regex: '.*'
+          body-template: |
+            Testing
+            ---
+          body-update-action: 'prefix'
+          body-uppercase-base-match: false
       # - name: create release
       #   uses: actions/create-release@v1
       #   env:
