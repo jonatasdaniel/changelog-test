@@ -43,8 +43,7 @@ jobs:
         uses: tzkhan/pr-update-action@v2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          base-branch-regex: '.*'
-          head-branch-regex: '.*'
+          base-branch-regex: 'master'
           body-template: "${{ steps.prepare_release_body.outputs.release_body }}"
           body-update-action: 'prefix'
           body-uppercase-base-match: false
