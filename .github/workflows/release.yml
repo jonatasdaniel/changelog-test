@@ -48,12 +48,12 @@ jobs:
           body-template: "${{ steps.prepare_release_body.outputs.release_body }}"
           body-update-action: 'prefix'
           body-uppercase-base-match: false
-      # - name: create release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     release_name: ${{ steps.publish_tag.outputs.tag_name }}
-      #     tag_name: ${{ steps.publish_tag.outputs.tag_name }}
-      #     body_path: RELEASE_BODY.md
-      #     draft: true
+      - name: create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: ${{ steps.publish_tag.outputs.tag_name }}
+          tag_name: ${{ steps.publish_tag.outputs.tag_name }}
+          body_path: RELEASE_BODY.md
+          draft: true
