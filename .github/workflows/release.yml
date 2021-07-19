@@ -40,13 +40,8 @@ jobs:
           diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md
           echo ::set-output name=release_body::$(cat RELEASE_BODY.md)
       - name: update PR
-        uses: tzkhan/pr-update-action@v2
-        with:
-          repo-token: "${{ secrets.GITHUB_TOKEN }}"
-          base-branch-regex: 'master'
-          body-template: "${{ steps.prepare_release_body.outputs.release_body }}"
-          body-update-action: 'prefix'
-          body-uppercase-base-match: false
+        run: |
+          gh pr edit 52 --body "Testing"
       - name: create release
         uses: actions/create-release@v1
         env:
