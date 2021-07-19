@@ -13,41 +13,38 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      # - name: clean
-      #   run: |
-      #     rm -f CHANGELOG.md.old RELEASE_BODY.md
-      #     touch CHANGELOG.md
-      # - name: backup previous changelog
-      #   uses: canastro/copy-file-action@master
-      #   with:
-      #     source: "CHANGELOG.md"
-      #     target: "CHANGELOG.md.old"
-      # - name: generate tag
-      #   run: |
-      #     git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
-      #     git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
-      #     BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-      #     VERSION=$(echo $GITHUB_HEAD_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
-      #     if [ $(git tag -l "v$version") ]; then PARAMS="--dry-run"; else PARAMS=""; fi
-      #     npx standard-version --release-as ${VERSION}
-      # - name: publish tag
-      #   id: publish_tag
-      #   run: |
-      #     git push --follow-tags origin ${BRANCH_NAME}
-      #     echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
-      # - name: prepare release body
-      #   id: prepare_release_body
-      #   run: |
-      #     echo ::set-output name=tag_name::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
+      - name: clean
+        run: |
+          rm -f CHANGELOG.md.old RELEASE_BODY.md
+          touch CHANGELOG.md
+      - name: backup previous changelog
+        uses: canastro/copy-file-action@master
+        with:
+          source: "CHANGELOG.md"
+          target: "CHANGELOG.md.old"
+      - name: generate tag
+        run: |
+          git config --global user.name "$(git --no-pager log --format=format:'%an' -n 1)"
+          git config --global user.email "$(git --no-pager log --format=format:'%ae' -n 1)"
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          VERSION=$(echo $GITHUB_HEAD_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
+          npx standard-version --release-as ${VERSION}
+      - name: publish tag
+        id: publish_tag
+        run: |
+          git push --follow-tags origin ${BRANCH_NAME}
+          echo ::set-output name=tag_name::$(git describe HEAD --abbrev=0)
+      - name: prepare release body
+        id: prepare_release_body
+        run: |
+          echo ::set-output name=release_body::$(diff CHANGELOG.md CHANGELOG.md.old | grep "<" | sed 's/< //g' > RELEASE_BODY.md)
       - name: update PR
         uses: tzkhan/pr-update-action@v2
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
           base-branch-regex: '.*'
           head-branch-regex: '.*'
-          body-template: |
-            Testing
-            ---
+          body-template: "${{ steps.prepare_release_body.outputs.release_body }}"
           body-update-action: 'prefix'
           body-uppercase-base-match: false
       # - name: create release
