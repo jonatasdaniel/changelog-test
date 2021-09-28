@@ -2,7 +2,7 @@ name: release
 on:
   pull_request:
     branches:
-      - master
+      - production
     types: [opened]
 jobs:
   release:
@@ -45,12 +45,12 @@ jobs:
           gh pr edit ${PR_NUMBER} --body "$(cat RELEASE_BODY.md)"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # - name: create release
-      #   uses: actions/create-release@v1
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #   with:
-      #     release_name: ${{ steps.publish_tag.outputs.tag_name }}
-      #     tag_name: ${{ steps.publish_tag.outputs.tag_name }}
-      #     body_path: RELEASE_BODY.md
-      #     draft: true
+      - name: create release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          release_name: ${{ steps.publish_tag.outputs.tag_name }}
+          tag_name: ${{ steps.publish_tag.outputs.tag_name }}
+          body_path: RELEASE_BODY.md
+          draft: true
