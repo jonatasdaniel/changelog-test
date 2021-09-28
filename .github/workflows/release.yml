@@ -6,12 +6,9 @@ on:
     types: [opened]
 jobs:
   release:
+    if: startsWith($GITHUB_HEAD_REF, 'release/')
     runs-on: ubuntu-latest
     steps:
-      - name: print
-        run: |
-          echo $GITHUB_HEAD_REF
-          echo $GITHUB_BASE_REF
       - name: checkout
         uses: actions/checkout@v2
         with:
