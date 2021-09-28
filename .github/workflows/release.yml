@@ -6,7 +6,7 @@ on:
     types: [opened]
 jobs:
   release:
-    if: startsWith($GITHUB_HEAD_REF, 'release/')
+    if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
       - name: checkout
