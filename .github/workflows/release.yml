@@ -2,11 +2,16 @@ name: release
 on:
   pull_request:
     branches:
-      - production
+      - master
     types: [opened]
 jobs:
   release:
     runs-on: ubuntu-latest
+    steps:
+      - name: print
+        run: |
+          echo $GITHUB_HEAD_REF
+          echo $GITHUB_BASE_REF
     steps:
       - name: checkout
         uses: actions/checkout@v2
