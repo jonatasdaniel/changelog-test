@@ -42,7 +42,7 @@ jobs:
       - name: update PR
         run: |
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
-          gh pr edit ${PR_NUMBER} --body "$(cat RELEASE_BODY.md)" --title "Release $VERSION"
+          gh pr edit ${PR_NUMBER} --body "$(cat RELEASE_BODY.md)" --title "Release v$VERSION"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: create release
