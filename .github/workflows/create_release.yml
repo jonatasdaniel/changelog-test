@@ -1,11 +1,11 @@
-name: release
+name: Create release
 on:
   pull_request:
     branches:
       - master
     types: [opened]
 jobs:
-  release:
+  create_release:
     if: startsWith(github.head_ref, 'release/')
     runs-on: ubuntu-latest
     steps:
@@ -42,6 +42,7 @@ jobs:
       - name: update PR
         run: |
           PR_NUMBER=$(echo $GITHUB_REF | awk 'BEGIN { FS = "/" } ; { print $3 }')
+          VERSION=$(echo $GITHUB_HEAD_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
           gh pr edit ${PR_NUMBER} --body "$(cat RELEASE_BODY.md)" --title "Release v${VERSION}"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
