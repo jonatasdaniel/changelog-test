@@ -6,8 +6,14 @@ jobs:
   create_pr:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
       - name: create PR
         run: |
+          git config --global user.name "Github action"
           gh pr create -B "develop" -H "develop" -t "Update develop with master after release ${GITHUB_REF}" -b "Use rebase to merge this PR!"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
