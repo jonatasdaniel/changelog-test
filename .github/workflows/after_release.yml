@@ -14,6 +14,7 @@ jobs:
       - name: create PR
         run: |
           git config --global user.name "Github action"
-          gh pr create -B "develop" -H "master" -t "Update develop with master after release ${GITHUB_REF}" -b "Use rebase to merge this PR!"
+          VERSION=$(echo $GITHUB_REF | grep -o -E "([0-9]+)\.([0-9]+)\.([0-9]+)(?:-([0-9A-Za-z-]+(?:\.[0-9A-Za-z-]+)*))?(?:\+[0-9A-Za-z-]+)?$")
+          gh pr create -B "develop" -H "master" -t "Update develop with master after release ${VERSION}" -b "Use rebase to merge this PR!"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
