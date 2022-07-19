@@ -10,3 +10,5 @@ jobs:
         run: |
           git config --global user.name "Github action"
           gh pr create -B "develop" -H "develop" -t "Update develop with master after release ${GITHUB_REF}" -b "Use rebase to merge this PR!"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
